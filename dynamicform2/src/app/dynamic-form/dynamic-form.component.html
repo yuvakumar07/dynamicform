@@ -1,0 +1,45 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+    <div *ngFor="let question of formConfig.pages[0].sections[0].subsections[0].questions; let i = index ">
+
+      <div *ngIf="!question.hidden">        
+
+        <div [ngSwitch]="question.type">
+
+          <div *ngSwitchCase="'date'" class="form-group">
+            <label>{{i + 1}} {{question.id}} {{ question.name }}</label>
+            <input type="date" [formControlName]="question.id" class="form-control">
+          </div>
+
+          <div *ngSwitchCase="'textarea'" class="form-group">
+            <label>{{i + 1}} {{question.id}} {{ question.name }}</label>
+            <textarea [formControlName]="question.id" class="form-control"></textarea>
+          </div>
+
+          <div *ngSwitchCase="'buttongroup'" class="form-group">
+            <label>{{i + 1}} {{question.id}} {{ question.name }}</label>
+            <div *ngFor="let option of question.options">
+              <label>
+                <input type="radio" [formControlName]="question.id" [value]="option.value"> {{ option.text }}
+              </label>
+            </div>
+          </div>
+
+          <div *ngSwitchDefault class="form-group">
+            <label>{{i + 1}} {{question.id}} {{ question.name }}</label>
+            <input type="text" [formControlName]="question.id" class="form-control">
+          </div>
+
+        </div>
+        <div *ngIf="question.description">
+          <small>{{ question.description }}</small>
+        </div>
+      </div>
+
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+
+</form>
+
+<pre>{{ formValue | json }}</pre>
